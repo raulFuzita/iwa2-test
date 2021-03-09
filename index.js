@@ -17,6 +17,10 @@ app.get('/hello/:foo/:bar', (req, res) => {
     ]});
 });
 
+app.post('/hello', (req, res) => {
+    res.json({result: 'Post was sent', data: req.body});
+});
+
 // http.createServer((req, res)=>{
 //   res.write(users.join(", ")); //display the list of users on the page
 // //   res.write("\n\n"+emails.join(", ")); //display the list of users on the page
