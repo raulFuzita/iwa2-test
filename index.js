@@ -8,7 +8,8 @@ bodyParser = require('body-parser');
 var app = express();
 var port = 8000;
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(logger('tiny'));
 
 app.get('/hello/:foo/:bar', (req, res) => {
     res.json({message: 'Hello BScBest!', data: [
@@ -27,20 +28,20 @@ app.post('/hello', (req, res) => {
 //   res.end(); //end the response
 // }).listen(8000); // listen for requests on port 8000
 
-let users = []; // names of users will be stored here
-// let email = [];
-(async function getNames(){
-  try{
-    const {data} = await axios.get("https://swapi.dev/api/people");
-    console.log(data.results);
-    users = data.results.map(user=>user.name);
-    // emails = data.map(email=>email.email);
-    console.log(users);
-    // console.log(emails);
-  } catch(error){
-    console.log(error)
-  }
-})();
+// let users = []; // names of users will be stored here
+// // let email = [];
+// (async function getNames(){
+//   try{
+//     const {data} = await axios.get("https://swapi.dev/api/people");
+//     console.log(data.results);
+//     users = data.results.map(user=>user.name);
+//     // emails = data.map(email=>email.email);
+//     console.log(users);
+//     // console.log(emails);
+//   } catch(error){
+//     console.log(error)
+//   }
+// })();
 
 app.listen(port, function(err){
     console.log('Listening on port: ' + port);
