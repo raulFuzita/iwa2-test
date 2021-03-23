@@ -6,14 +6,14 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 8000;
 
-const database = require('./database/mongoDB');
+const database = require('./database/mongoDB'); // Check database directory
 const itemRouter = require('./routes/item/itemRoutes');
 const userRouter = require('./routes/user/userRoutes');
 
 app.use(bodyParser.json());
 app.use(logger('tiny'));
 
-database.connect();
+database.connect(); // connect database
 
 app.use('/hello', itemRouter);
 app.use('/users', userRouter);
