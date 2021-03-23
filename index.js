@@ -1,55 +1,27 @@
-const http = require('http'),
-axios = require('axios'),
-logger = require('morgan'),
-cors = require('cors'),
-express = require('express'),
-bodyParser = require('body-parser'),
-mongoose = require('mongoose');
+const logger = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-var app = express();
-var port = 8000;
+const app = express();
+const port = 8000;
+
+const database = require('./database/mongoDB');
+const itemRouter = require('./routes/item/itemRoutes');
+const userRouter = require('./routes/user/userRoutes');
 
 app.use(bodyParser.json());
 app.use(logger('tiny'));
-app.use(require('./routes'));
 
-// http.createServer((req, res)=>{
-//   res.write(users.join(", ")); //display the list of users on the page
-// //   res.write("\n\n"+emails.join(", ")); //display the list of users on the page
-//   res.end(); //end the response
-// }).listen(8000); // listen for requests on port 8000
+database.connect();
 
-// let users = []; // names of users will be stored here
-// // let email = [];
-// (async function getNames(){
-//   try{
-//     const {data} = await axios.get("https://swapi.dev/api/people");
-//     console.log(data.results);
-//     users = data.results.map(user=>user.name);
-//     // emails = data.map(email=>email.email);
-//     console.log(users);
-//     // console.log(emails);
-//   } catch(error){
-//     console.log(error)
-//   }
-// })();
+app.use('/hello', itemRouter);
+app.use('/users', userRouter);
 
-// mongoose.connect('mongodb://localhost/test');
+app.get('', (req, res) => {
+    res.redirect('hello');
+});
 
-// mongoose.connection.on('error', (err) => { 
-//     console.log('Mongodb Error: ', err); 
-//     process.exit();
-// });
-// mongoose.connection.on('connected', () => { 
-//     console.log('MongoDB is successfully connected');
-// });
-
-// app.listen(port, function(err){
-//     console.log('Listening on port: ' + port);
-// });
-
-const dbURI = "mongodb://localhost/test";
-
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then((result) => console.log('connected to db'))
-        .catch((err) => console.log(err));
+app.listen(port, () => {
+    console.log('Serevr is running on port ' + port);
+});
